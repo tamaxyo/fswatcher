@@ -49,7 +49,7 @@ func execute(c config.Config) {
 				if match(name, c.Pattern) && !match(name, c.Ignore) {
 					log.Println("event: ", ev)
 
-					cmd := setupCommand(c.Command)
+					cmd := setupCommand(c.Path, c.Command)
 					if err := cmd.Run(); err != nil {
 						log.Println(err)
 					}
@@ -70,10 +70,11 @@ func match(name string, pattern string) bool {
 	return false
 }
 
-func setupCommand(command string) *exec.Cmd {
+func setupCommand(workdir string, command string) *exec.Cmd {
 	commands := strings.Split(command, " ")
 
 	cmd := exec.Command(commands[0], commands[1:]...)
+	cmd.Dir = workdir
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr

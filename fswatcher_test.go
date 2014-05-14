@@ -28,9 +28,9 @@ func TestUnmatched(t *testing.T) {
 	}
 }
 
-func TestCommand(t *testing.T) {
+func TestCommandArgs(t *testing.T) {
 	command := "go test ./..."
-	cmd := setupCommand(command)
+	cmd := setupCommand("/path/to/the/project", command)
 
 	expected := []string{"go", "test", "./..."}
 	actual := cmd.Args
@@ -44,5 +44,17 @@ func TestCommand(t *testing.T) {
 			t.Errorf("incorrect command argument has been set - actual: %s, expected: %s", actual[idx], expected[idx])
 		}
 
+	}
+}
+
+func TestCommandDir(t *testing.T) {
+	command := "go test ./..."
+	cmd := setupCommand("/path/to/the/project", command)
+
+	expected := "/path/to/the/project"
+	actual := cmd.Dir
+
+	if actual != expected {
+		t.Errorf("incorrect workdir has been set - actual: %s, expected: %s", actual, expected)
 	}
 }
