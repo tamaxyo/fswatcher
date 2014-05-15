@@ -1,0 +1,9 @@
+[
+  {
+    "path" : "./",
+    "pattern" : "*.go",
+    "ignore" : ".*,#*",
+    "command" : "go test -v ./...",
+    "recursive" : true
+  }
+]
